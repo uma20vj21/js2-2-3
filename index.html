@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDoリスト</title>
+  </head>
+  <body>
+    <div>
+      <h2>ToDoリスト</h2>
+    </div>
+
+    <div class="radio_button">
+      <input type="radio" name="status" id="allselect" checked />全て
+      <input type="radio" name="status" id="working" />作業中
+      <input type="radio" name="status" id="complete" />完了
+    </div>
+
+    <table>
+      <thead>
+        <th>ID</th>
+        <th>コメント</th>
+        <th>状態</th>
+      </thead>
+      <tbody id="todolists"></tbody>
+    </table>
+
+    <div>
+      <h2>新規タスクの追加</h2>
+      <input type="text" id="addtask" />
+      <button type="button" id="submit">追加</button>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
