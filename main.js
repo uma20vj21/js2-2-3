@@ -27,6 +27,7 @@ const createListView = (todos) => {
     todoLists.removeChild(todoLists.firstChild);
   }
   todos.forEach((task, index) => {
+    console.log(task);
     const todoItem = document.createElement('tr');
 
     const todoId = document.createElement('th');
@@ -35,8 +36,8 @@ const createListView = (todos) => {
     const todoDelete = document.createElement('th');
     todoId.innerHTML = index + 1; //コールバック関数の第二引数でインデックスを取得させinnerHTMLで記述
     todoComment.innerHTML = task.comment; //コールバック関数の第一引数(task)からtodosの各値を取得させinnerHTMLで記述
-    todoDelete.appendChild(createDeleteButton(todos.id)); //createDeleteButtonに配列のidを渡してあげる
-    todoStatus.appendChild(createStatusButton(todos));
+    todoDelete.appendChild(createDeleteButton(index)); //foreach内の引数が使えるので、インデックスであるindex引数を代入
+    todoStatus.appendChild(createStatusButton(task));//foreach内の引数が使えるので、第一引数のtaskを代入
 
     //todoItem内に各要素を差し込む
     todoItem.appendChild(todoId);
@@ -50,15 +51,15 @@ const createListView = (todos) => {
 };
 
 
-//作業中ボタンをクリックすると完了ボタンになる処理を実装
-const createStatusButton = (todos) => {
+//作業中ボタンをクリックすると完了ボタンになる処理を実装(foreach内でまわす処理なのでforeachの引数を使える)
+const createStatusButton = (task) => {
   const statusButton = document.createElement('button');
-  statusButton.innerHTML = todos.status;
+  statusButton.innerHTML = task.status;
   statusButton.addEventListener('click', () => {
-    if (todos.status === '作業中') {
-      todos.status = '完了';
+    if (task.status === '作業中') {
+      task.status = '完了';
     } else {
-      todos.status = '作業中';
+      task.status = '作業中';
     }
     createListView(todos);
   });
