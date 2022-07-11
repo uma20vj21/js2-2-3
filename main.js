@@ -9,17 +9,23 @@ const todos = [];
 
 // 追加ボタンがクリックされたら実行する処理を実装
 submitButton.addEventListener('click', () => {
-  todos.push({
+  // todos.push({
+  //   id: todos.length,
+  //   comment: addTask.value,
+  //   status: '作業中',
+  // });
+  const todo = {
     id: todos.length,
     comment: addTask.value,
     status: '作業中',
-  });
+  };
 
-  createListView(todos);
-
+  // createListView(todos);
+  todos.push(todo);
   addTask.value = '';
-});
 
+  radioSelect();
+});
 
 const createListView = (todos) => {
   // todosLists直下に子要素がなくなるまで、子要素を削除し続ける処理
@@ -27,7 +33,6 @@ const createListView = (todos) => {
     todoLists.removeChild(todoLists.firstChild);
   }
   todos.forEach((task, index) => {
-    console.log(task);
     const todoItem = document.createElement('tr');
 
     const todoId = document.createElement('th');
@@ -37,7 +42,7 @@ const createListView = (todos) => {
     todoId.innerHTML = index + 1; //コールバック関数の第二引数でインデックスを取得させinnerHTMLで記述
     todoComment.innerHTML = task.comment; //コールバック関数の第一引数(task)からtodosの各値を取得させinnerHTMLで記述
     todoDelete.appendChild(createDeleteButton(index)); //foreach内の引数が使えるので、インデックスであるindex引数を代入
-    todoStatus.appendChild(createStatusButton(task));//foreach内の引数が使えるので、第一引数のtaskを代入
+    todoStatus.appendChild(createStatusButton(task)); //foreach内の引数が使えるので、第一引数のtaskを代入
 
     //todoItem内に各要素を差し込む
     todoItem.appendChild(todoId);
@@ -49,7 +54,6 @@ const createListView = (todos) => {
     todoLists.appendChild(todoItem);
   });
 };
-
 
 //作業中ボタンをクリックすると完了ボタンになる処理を実装(foreach内でまわす処理なのでforeachの引数を使える)
 const createStatusButton = (task) => {
@@ -79,3 +83,24 @@ const createDeleteButton = (index) => {
   return deleteButton;
 };
 
+// タスク表示/非表示切り替え機能の実装
+const radioSelect = () => {
+  const radioAll = document.getElementById('allselect');
+  const radioWorking = document.getElementById('working');
+  const radioComplete = document.getElementById('complete');
+
+  if (radioAll.checked) {
+    todos.slice();
+    return createListView(todos);
+  } else if (radioWorking.checked) {
+    const radioWork = todos.filter((todo) => {
+      return todo.status === '作業中';
+    });
+    return createListView(radioWork);
+  } else if (radioComplete.checked) {
+    const radioCmp = todos.filter((todo) => {
+      return todo.status === '完了';
+    });
+    return createListView(radioCmp);
+  }
+};

@@ -12,9 +12,27 @@
     </div>
 
     <div class="radio_button">
-      <input type="radio" name="status" id="allselect" checked />全て
-      <input type="radio" name="status" id="working" />作業中
-      <input type="radio" name="status" id="complete" />完了
+      <input
+        type="radio"
+        name="status"
+        id="allselect"
+        checked
+        onchange="radioSelect()"
+      />全て
+      <input
+        type="radio"
+        name="status"
+        id="working"
+        checked
+        onchange="radioSelect()"
+      />作業中
+      <input
+        type="radio"
+        name="status"
+        id="complete"
+        checked
+        onchange="radioSelect()"
+      />完了
     </div>
 
     <table>
