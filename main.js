@@ -90,7 +90,7 @@ const createDeleteButton = (index) => {
   deleteButton.addEventListener('click', () => {
     todos.splice(index, 1);
 
-    createListView(todos);
+    radioSelect();
   });
   //クリック発火で使われたdeleteButtonを返してあげないと、appendChild内で関数を使って削除ボタンを作った際にnullが返されエラーになる
   return deleteButton;
