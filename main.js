@@ -3,25 +3,20 @@
 const addTask = document.getElementById('addtask');
 const submitButton = document.getElementById('submit');
 const todoLists = document.getElementById('todolists');
+const radioAll = document.getElementById('allselect');
+const radioWorking = document.getElementById('working');
+const radioComplete = document.getElementById('complete');
 
 // 追加するための空配列を定義
 const todos = [];
 
 // 追加ボタンがクリックされたら実行する処理を実装
 submitButton.addEventListener('click', () => {
-  // todos.push({
-  //   id: todos.length,
-  //   comment: addTask.value,
-  //   status: '作業中',
-  // });
-  const todo = {
+  todos.push({
     id: todos.length,
     comment: addTask.value,
     status: '作業中',
-  };
-
-  // createListView(todos);
-  todos.push(todo);
+  });
   addTask.value = '';
 
   radioSelect();
@@ -55,6 +50,24 @@ const createListView = (todos) => {
   });
 };
 
+// タスク表示/非表示切り替え機能の実装
+const radioSelect = () => {
+  if (radioAll.checked) {
+    todos.slice();
+    return createListView(todos);
+  } else if (radioWorking.checked) {
+    const radiowork = todos.filter((todo) => {
+      return todo.status === '作業中';
+    });
+    return createListView(radiowork);
+  } else if (radioComplete.checked) {
+    const radiocmp = todos.filter((todo) => {
+      return todo.status === '完了';
+    });
+    return createListView(radiocmp);
+  }
+};
+
 //作業中ボタンをクリックすると完了ボタンになる処理を実装(foreach内でまわす処理なのでforeachの引数を使える)
 const createStatusButton = (task) => {
   const statusButton = document.createElement('button');
@@ -65,7 +78,7 @@ const createStatusButton = (task) => {
     } else {
       task.status = '作業中';
     }
-    createListView(todos);
+    radioSelect();
   });
   return statusButton;
 };
@@ -81,26 +94,4 @@ const createDeleteButton = (index) => {
   });
   //クリック発火で使われたdeleteButtonを返してあげないと、appendChild内で関数を使って削除ボタンを作った際にnullが返されエラーになる
   return deleteButton;
-};
-
-// タスク表示/非表示切り替え機能の実装
-const radioSelect = () => {
-  const radioAll = document.getElementById('allselect');
-  const radioWorking = document.getElementById('working');
-  const radioComplete = document.getElementById('complete');
-
-  if (radioAll.checked) {
-    todos.slice();
-    return createListView(todos);
-  } else if (radioWorking.checked) {
-    const radioWork = todos.filter((todo) => {
-      return todo.status === '作業中';
-    });
-    return createListView(radioWork);
-  } else if (radioComplete.checked) {
-    const radioCmp = todos.filter((todo) => {
-      return todo.status === '完了';
-    });
-    return createListView(radioCmp);
-  }
 };
