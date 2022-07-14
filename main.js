@@ -7,9 +7,9 @@ const radioAll = document.getElementById('allselect');
 const radioWorking = document.getElementById('working');
 const radioComplete = document.getElementById('complete');
 
-radioAll.addEventListener('change', radioSelect);
-radioWorking.addEventListener('change', radioSelect);
-radioComplete.addEventListener('change',radioSelect);
+// radioAll.addEventListener('change', radioSelect);
+// radioWorking.addEventListener('change', radioSelect);
+// radioComplete.addEventListener('change',radioSelect);
 // 追加するための空配列を定義
 const todos = [];
 
@@ -22,10 +22,12 @@ submitButton.addEventListener('click', () => {
   });
   addTask.value = '';
 
+
   createListView(todos);
   radioAll.addEventListener('change', radioSelect);
   radioWorking.addEventListener('change', radioSelect);
   radioComplete.addEventListener('change', radioSelect);
+  
 });
 
 const createListView = (todos) => {
@@ -75,6 +77,7 @@ const radioSelect = () => {
     createListView(radiocmp);
   }
 };
+
 //作業中ボタンをクリックすると完了ボタンになる処理を実装(foreach内でまわす処理なのでforeachの引数を使える)
 const createStatusButton = (task) => {
   const statusButton = document.createElement('button');
@@ -87,9 +90,9 @@ const createStatusButton = (task) => {
     }
 
     createListView(todos);
-    // radioAll.addEventListener('change', radioSelect);
-    // radioWorking.addEventListener('change', radioSelect);
-    // radioComplete.addEventListener('change', radioSelect);
+    radioAll.addEventListener('change', radioSelect);
+    radioWorking.addEventListener('change', radioSelect);
+    radioComplete.addEventListener('change', radioSelect);
   });
   return statusButton;
 };
@@ -102,9 +105,9 @@ const createDeleteButton = (index) => {
     todos.splice(index, 1);
 
     createListView(todos);
-    // radioAll.addEventListener('change', radioSelect);
-    // radioWorking.addEventListener('change', radioSelect);
-    // radioComplete.addEventListener('change', radioSelect);
+    radioAll.addEventListener('change', radioSelect);
+    radioWorking.addEventListener('change', radioSelect);
+    radioComplete.addEventListener('change', radioSelect);
   });
   //クリック発火で使われたdeleteButtonを返してあげないと、appendChild内で関数を使って削除ボタンを作った際にnullが返されエラーになる
   return deleteButton;
