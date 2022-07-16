@@ -16,12 +16,13 @@ submitButton.addEventListener('click', () => {
     comment: addTask.value,
     status: '作業中',
   });
-  addTask.value = '';
-
+  
   radioSelect();
   radioAll.addEventListener('change', radioSelect);
   radioWorking.addEventListener('change', radioSelect);
   radioComplete.addEventListener('change', radioSelect);
+
+  addTask.value = '';
 });
 
 const createListView = (todos) => {
