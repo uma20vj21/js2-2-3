@@ -6,10 +6,6 @@ const todoLists = document.getElementById('todolists');
 const radioAll = document.getElementById('allselect');
 const radioWorking = document.getElementById('working');
 const radioComplete = document.getElementById('complete');
-
-// radioAll.addEventListener('change', radioSelect);
-// radioWorking.addEventListener('change', radioSelect);
-// radioComplete.addEventListener('change',radioSelect);
 // 追加するための空配列を定義
 const todos = [];
 
@@ -22,12 +18,7 @@ submitButton.addEventListener('click', () => {
   });
   addTask.value = '';
 
-
   createListView(todos);
-  radioAll.addEventListener('change', radioSelect);
-  radioWorking.addEventListener('change', radioSelect);
-  radioComplete.addEventListener('change', radioSelect);
-  
 });
 
 const createListView = (todos) => {
@@ -42,6 +33,7 @@ const createListView = (todos) => {
     const todoComment = document.createElement('th');
     const todoStatus = document.createElement('th');
     const todoDelete = document.createElement('th');
+
     todoId.innerHTML = index + 1; //コールバック関数の第二引数でインデックスを取得させinnerHTMLで記述
     todoComment.innerHTML = task.comment; //コールバック関数の第一引数(task)からtodosの各値を取得させinnerHTMLで記述
     todoDelete.appendChild(createDeleteButton(index)); //foreach内の引数が使えるので、インデックスであるindex引数を代入
@@ -78,6 +70,19 @@ const radioSelect = () => {
   }
 };
 
+
+const statusChange = () => {
+  const statusBtn = todos.status;
+  statusBtn.addEventListener('click', () => {
+    if (todos.status === '作業中') {
+      todos.status = '完了';
+    } else {
+      todos.status = '作業中';
+    }
+    radioSelect();
+  });
+};
+
 //作業中ボタンをクリックすると完了ボタンになる処理を実装(foreach内でまわす処理なのでforeachの引数を使える)
 const createStatusButton = (task) => {
   const statusButton = document.createElement('button');
@@ -89,10 +94,7 @@ const createStatusButton = (task) => {
       task.status = '作業中';
     }
 
-    createListView(todos);
-    radioAll.addEventListener('change', radioSelect);
-    radioWorking.addEventListener('change', radioSelect);
-    radioComplete.addEventListener('change', radioSelect);
+    radioSelect();
   });
   return statusButton;
 };
@@ -104,10 +106,7 @@ const createDeleteButton = (index) => {
   deleteButton.addEventListener('click', () => {
     todos.splice(index, 1);
 
-    createListView(todos);
-    radioAll.addEventListener('change', radioSelect);
-    radioWorking.addEventListener('change', radioSelect);
-    radioComplete.addEventListener('change', radioSelect);
+    radioSelect();
   });
   //クリック発火で使われたdeleteButtonを返してあげないと、appendChild内で関数を使って削除ボタンを作った際にnullが返されエラーになる
   return deleteButton;
