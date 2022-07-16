@@ -18,7 +18,10 @@ submitButton.addEventListener('click', () => {
   });
   addTask.value = '';
 
-  createListView(todos);
+  radioSelect();
+  radioAll.addEventListener('change', radioSelect);
+  radioWorking.addEventListener('change', radioSelect);
+  radioComplete.addEventListener('change', radioSelect);
 });
 
 const createListView = (todos) => {
@@ -70,19 +73,6 @@ const radioSelect = () => {
   }
 };
 
-
-const statusChange = () => {
-  const statusBtn = todos.status;
-  statusBtn.addEventListener('click', () => {
-    if (todos.status === '作業中') {
-      todos.status = '完了';
-    } else {
-      todos.status = '作業中';
-    }
-    radioSelect();
-  });
-};
-
 //作業中ボタンをクリックすると完了ボタンになる処理を実装(foreach内でまわす処理なのでforeachの引数を使える)
 const createStatusButton = (task) => {
   const statusButton = document.createElement('button');
@@ -93,7 +83,6 @@ const createStatusButton = (task) => {
     } else {
       task.status = '作業中';
     }
-
     radioSelect();
   });
   return statusButton;
@@ -107,6 +96,9 @@ const createDeleteButton = (index) => {
     todos.splice(index, 1);
 
     radioSelect();
+    radioAll.addEventListener('change', radioSelect);
+    radioWorking.addEventListener('change', radioSelect);
+    radioComplete.addEventListener('change', radioSelect);
   });
   //クリック発火で使われたdeleteButtonを返してあげないと、appendChild内で関数を使って削除ボタンを作った際にnullが返されエラーになる
   return deleteButton;
