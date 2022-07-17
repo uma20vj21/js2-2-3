@@ -3,9 +3,7 @@
 const addTask = document.getElementById('addtask');
 const submitButton = document.getElementById('submit');
 const todoLists = document.getElementById('todolists');
-const radioAll = document.getElementById('allselect');
-const radioWorking = document.getElementById('working');
-const radioComplete = document.getElementById('complete');
+const radioButtons = document.getElementsByName('radio-button');
 // 追加するための空配列を定義
 const todos = [];
 
@@ -18,10 +16,11 @@ submitButton.addEventListener('click', () => {
   });
   
   radioSelect();
-  radioAll.addEventListener('change', radioSelect);
-  radioWorking.addEventListener('change', radioSelect);
-  radioComplete.addEventListener('change', radioSelect);
-
+  radioButtons.forEach(radio => {
+    radio.addEventListener('change', () => { 
+      radioSelect();
+    });
+  });
   addTask.value = '';
 });
 
@@ -57,16 +56,16 @@ const createListView = (todos) => {
 // タスク表示/非表示切り替え機能の実装
 
 const radioSelect = () => {
-  if (radioAll.checked) {
+  if (radioButtons[0].checked) {
     todos.slice();
     createListView(todos);
     return;
-  } else if (radioWorking.checked) {
+  } else if (radioButtons[1].checked) {
     const radiowork = todos.filter((todo) => {
       return todo.status === '作業中';
     });
     createListView(radiowork);
-  } else if (radioComplete.checked) {
+  } else if (radioButtons[2].checked) {
     const radiocmp = todos.filter((todo) => {
       return todo.status === '完了';
     });
@@ -97,9 +96,12 @@ const createDeleteButton = (index) => {
     todos.splice(index, 1);
 
     radioSelect();
-    radioAll.addEventListener('change', radioSelect);
-    radioWorking.addEventListener('change', radioSelect);
-    radioComplete.addEventListener('change', radioSelect);
+    radioButtons.forEach(radio => {
+      radio.addEventListener('change', () => { 
+        radioSelect();
+      });
+    });
+    
   });
   //クリック発火で使われたdeleteButtonを返してあげないと、appendChild内で関数を使って削除ボタンを作った際にnullが返されエラーになる
   return deleteButton;
