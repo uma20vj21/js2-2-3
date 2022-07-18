@@ -7,10 +7,16 @@ const radioButtons = document.getElementsByName('radio-button');
 // 追加するための空配列を定義
 const todos = [];
 
+// IDを必ず重複させないようにするため、現在の日時よりユニーク文字列を作成
+const getUniqueId = () => 
+  new Date().getTime().toString(16) + 
+  Math.floor(1000 * Math.random()).toString(16)
+
+
 // 追加ボタンがクリックされたら実行する処理を実装
 submitButton.addEventListener('click', () => {
   todos.push({
-    id: todos.length,
+    id: getUniqueId(),
     comment: addTask.value,
     status: '作業中',
   });
@@ -39,7 +45,7 @@ const createListView = (todos) => {
 
     todoId.innerHTML = index + 1; //コールバック関数の第二引数でインデックスを取得させinnerHTMLで記述
     todoComment.innerHTML = task.comment; //コールバック関数の第一引数(task)からtodosの各値を取得させinnerHTMLで記述
-    todoDelete.appendChild(createDeleteButton(index)); //foreach内の引数が使えるので、インデックスであるindex引数を代入
+    todoDelete.appendChild(createDeleteButton(task.id)); //オブジェクトのidを引数に取る
     todoStatus.appendChild(createStatusButton(task)); //foreach内の引数が使えるので、第一引数のtaskを代入
 
     //todoItem内に各要素を差し込む
@@ -89,20 +95,22 @@ const createStatusButton = (task) => {
 };
 
 // 削除ボタンが押されたらタスクを消す処理を実装
-const createDeleteButton = (index) => {
-  const deleteButton = document.createElement('button');
-  deleteButton.innerHTML = '削除';
+const createDeleteButton = (taskId) => {
+  const deleteButton = document.createElement('button')
+  deleteButton.innerHTML = '削除'
   deleteButton.addEventListener('click', () => {
-    todos.splice(index, 1);
+    const newTodos = todos.filter((todo) => todo.id !== taskId)
 
-    radioSelect();
-    radioButtons.forEach(radio => {
-      radio.addEventListener('change', () => { 
-        radioSelect();
-      });
-    });
-    
-  });
+    todos.length = 0
+    todos.push(...newTodos)
+
+    radioSelect()
+    radioButtons.forEach((radio) => {
+      radio.addEventListener('change', () => {
+        radioSelect()
+      })
+    })
+  })
   //クリック発火で使われたdeleteButtonを返してあげないと、appendChild内で関数を使って削除ボタンを作った際にnullが返されエラーになる
-  return deleteButton;
-};
+  return deleteButton
+}
